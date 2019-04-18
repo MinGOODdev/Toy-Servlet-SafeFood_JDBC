@@ -15,6 +15,7 @@
     <div class="jumbotron">
         <h1 class="display-4">삐빅! 처리 중 문제가 발생하였습니다.</h1>
         <p class="lead">${errorMsg}</p>
+        <p class="lead">${exception}</p>
         <a class="btn btn-warning btn-lg" href="${pageContext.request.contextPath}/main.do?action=foodList"
            role="button">돌아가세요</a>
     </div>
