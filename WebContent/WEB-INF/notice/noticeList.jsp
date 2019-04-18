@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>구매 내역</title>
+    <title>공지사항</title>
     <meta charset="UTF-8">
 
     <jsp:include page="../partial/config.jsp"></jsp:include>
@@ -20,16 +20,22 @@
             <tr>
                 <th class="notice-width">#</th>
                 <th>제목</th>
+                <th>글쓴이</th>
+                <th>작성시간</th>
+                <th>수정시간</th>
             </tr>
             </thead>
             <tbody>
             <c:if test="${not empty noticeList}">
                 <c:forEach items="${noticeList}" var="n" varStatus="status">
                     <tr>
-                        <td>${status.count}</td>
+                        <td>${n.id}</td>
                         <td>
-                            <a href="${pageContext.request.contextPath}/main.do?action=noticeDetail&title=${n.title}">${n.title}</a>
+                            <a href="${pageContext.request.contextPath}/main.do?action=noticeDetail&id=${n.id}">${n.title}</a>
                         </td>
+                        <td>${n.writer}</td>
+                        <td>${n.createdAt}</td>
+                        <td>${n.updatedAt}</td>
                     </tr>
                 </c:forEach>
             </c:if>

@@ -126,7 +126,7 @@ public class UserDaoImpl implements UserDao {
      * 회원 아이디로 검색
      **/
     @Override
-    public User searchByUserId(String userId) throws Exception {
+    public User findByUserId(String userId) throws Exception {
         User user = null;
         Connection conn = null;
         PreparedStatement stmt = null;

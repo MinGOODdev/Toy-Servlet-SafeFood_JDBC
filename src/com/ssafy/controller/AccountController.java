@@ -115,7 +115,7 @@ public class AccountController {
         userService.insert(user);
 
         List<Allergy> result = this.selectedAllergies(allergy);
-        userHasAllergyService.insert(userService.searchByUserId(userId).getId(), result);
+        userHasAllergyService.insert(userService.findByUserId(userId).getId(), result);
 
         return new PageInfo("login.jsp");
     }
@@ -125,7 +125,7 @@ public class AccountController {
      **/
     public PageInfo getUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = (String) request.getSession().getAttribute("userId");
-        User user = userService.searchByUserId(userId);
+        User user = userService.findByUserId(userId);
         request.setAttribute("user", user);
 
         List<UserHasAllergy> list = userHasAllergyService.findAllByUserId(user.getId());
@@ -143,7 +143,7 @@ public class AccountController {
      **/
     public PageInfo updateUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = (String) request.getSession().getAttribute("userId");
-        User user = userService.searchByUserId(userId);
+        User user = userService.findByUserId(userId);
         String name = request.getParameter("name");
         String[] allergy = request.getParameterValues("allergy[]");
 

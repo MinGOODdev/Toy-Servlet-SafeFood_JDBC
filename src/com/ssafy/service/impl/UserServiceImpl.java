@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(String userId) throws Exception {
-        int id = userDao.searchByUserId(userId).getId();
+        int id = userDao.findByUserId(userId).getId();
         userHasAllergyService.deleteByUserId(id);
         userDao.delete(userId);
     }
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User searchByUserId(String userId) throws Exception {
-        return userDao.searchByUserId(userId);
+    public User findByUserId(String userId) throws Exception {
+        return userDao.findByUserId(userId);
     }
 }

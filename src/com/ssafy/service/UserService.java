@@ -14,6 +14,6 @@ public interface UserService {
 
     void update(User user) throws Exception;
 
-    User searchByUserId(String userId) throws Exception;
+    User findByUserId(String userId) throws Exception;
 
 }

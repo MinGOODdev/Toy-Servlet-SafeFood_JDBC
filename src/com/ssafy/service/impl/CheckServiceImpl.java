@@ -28,7 +28,7 @@ public class CheckServiceImpl implements CheckService {
      **/
     @Override
     public boolean checkAccount(String userId, String pw) throws Exception {
-        User user = userService.searchByUserId(userId);
+        User user = userService.findByUserId(userId);
         if (user != null && user.getPassword().equals(pw)) return true;
         else return false;
     }
@@ -38,7 +38,7 @@ public class CheckServiceImpl implements CheckService {
      **/
     @Override
     public String findPassword(String userId, String name) throws Exception {
-        User user = userService.searchByUserId(userId);
+        User user = userService.findByUserId(userId);
         if (user != null && user.getName().equals(name)) return user.getPassword();
         else return null;
     }
@@ -73,7 +73,7 @@ public class CheckServiceImpl implements CheckService {
         HashMap<String, String> errorMessages = this.checkNullForLogin(userId, pw);
         if (name == null || name.trim().length() == 0) errorMessages.put("nameError", "이름이 입력되지 않았습니다.");
 
-        User user = userService.searchByUserId(userId);
+        User user = userService.findByUserId(userId);
         if (user != null) errorMessages.put("idAlready", "입력한 아이디가 이미 존재합니다.");
         return errorMessages;
     }

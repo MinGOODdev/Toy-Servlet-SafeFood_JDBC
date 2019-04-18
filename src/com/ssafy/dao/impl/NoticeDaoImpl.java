@@ -1,13 +1,16 @@
 package com.ssafy.dao.impl;
 
+import com.ssafy.dao.NoticeDao;
+import com.ssafy.util.DBUtil;
+import com.ssafy.vo.Notice;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ssafy.dao.NoticeDao;
-import com.ssafy.vo.Notice;
-
 public class NoticeDaoImpl implements NoticeDao {
-    private List<Notice> notices;
     private static NoticeDaoImpl noticeDao;
 
     public static NoticeDaoImpl getInstance() {
@@ -15,43 +18,130 @@ public class NoticeDaoImpl implements NoticeDao {
         return noticeDao;
     }
 
-    private NoticeDaoImpl() {
-        notices = new ArrayList<>();
-    }
-
     @Override
-    public List<Notice> searchAll() {
-        return notices;
-    }
+    public List<Notice> findAll() throws Exception {
+        ArrayList<Notice> list = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String sql = "SELECT id, title, contents, writer, createdAt, updatedAt FROM NOTICE";
 
-    @Override
-    public Notice search(String title) {
-        if (notices != null) {
-            for (Notice n : notices) {
-                if (n.getTitle().equals(title)) return n;
+        try {
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                list.add(new Notice(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6)
+                ));
             }
+
+        } finally {
+            DBUtil.close(rs);
+            DBUtil.close(stmt);
+            DBUtil.close(conn);
         }
-        return null;
+        return list;
     }
 
     @Override
-    public void registerNotice(Notice notice) {
-        notices.add(notice);
-    }
+    public Notice findById(int id) throws Exception {
+        Notice notice = null;
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String sql = "SELECT id, title, contents, writer, createdAt, updatedAt FROM NOTICE WHERE id = ?";
 
-    @Override
-    public void deleteNotice(String title) {
-        int index = -1;
-        if (notices != null) {
-            for (int i = 0; i < notices.size(); i++) {
-                if (notices.get(i).getTitle().equals(title)) {
-                    index = i;
-                    break;
-                }
+        try {
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                notice = new Notice(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6)
+                );
             }
+
+        } finally {
+            DBUtil.close(rs);
+            DBUtil.close(stmt);
+            DBUtil.close(conn);
         }
-        if (index == -1) return;
-        else notices.remove(index);
+        return notice;
     }
 
+    @Override
+    public void registerNotice(Notice notice) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        String sql = "INSERT INTO NOTICE (title, contents, writer, createdAt, updatedAt) VALUES (?, ?, ?, ?, ?)";
+
+        try {
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+
+            stmt.setString(1, notice.getTitle());
+            stmt.setString(2, notice.getContents());
+            stmt.setString(3, notice.getWriter());
+            stmt.setString(4, notice.getCreatedAt());
+            stmt.setString(5, notice.getUpdatedAt());
+            stmt.executeUpdate();
+
+        } finally {
+            DBUtil.close(stmt);
+            DBUtil.close(conn);
+        }
+    }
+
+    @Override
+    public void update(Notice notice) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        String sql = "UPDATE NOTICE SET title = ?, contents = ?, updatedAt = ? WHERE id = ?";
+
+        try {
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, notice.getTitle());
+            stmt.setString(2, notice.getContents());
+            stmt.setString(3, notice.getUpdatedAt());
+            stmt.setInt(4, notice.getId());
+            stmt.executeUpdate();
+
+        } finally {
+            DBUtil.close(stmt);
+            DBUtil.close(conn);
+        }
+    }
+
+    @Override
+    public void deleteById(int id) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        String sql = "DELETE FROM NOTICE WHERE id = ?";
+
+        try {
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+
+        } finally {
+            DBUtil.close(stmt);
+            DBUtil.close(conn);
+        }
+    }
 }

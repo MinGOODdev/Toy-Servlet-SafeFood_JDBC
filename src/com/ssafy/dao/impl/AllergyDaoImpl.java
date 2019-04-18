@@ -74,32 +74,4 @@ public class AllergyDaoImpl implements AllergyDao {
         }
         return allergy;
     }
-
-//    public List<Allergy> findByUserId() throws Exception {
-//        ArrayList<Allergy> list = new ArrayList<>();
-//        Connection conn = null;
-//        PreparedStatement stmt = null;
-//        ResultSet rs = null;
-//        String sql = "SELECT id, name FROM ";
-//
-//        try {
-//            conn = DBUtil.getConnection();
-//            stmt = conn.prepareStatement(sql);
-//            rs = stmt.executeQuery();
-//
-//            while (rs.next()) {
-//                list.add(new Allergy(
-//                        rs.getInt(1),
-//                        rs.getString(2)
-//                ));
-//            }
-//
-//        } finally {
-//            DBUtil.close(rs);
-//            DBUtil.close(stmt);
-//            DBUtil.close(conn);
-//        }
-//        return list;
-//    }
-
 }

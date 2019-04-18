@@ -15,6 +15,6 @@ public interface UserDao {
 
     void delete(String userId) throws Exception;
 
-    User searchByUserId(String userId) throws Exception;
+    User findByUserId(String userId) throws Exception;
 
 }

@@ -58,11 +58,13 @@ public class MainServlet extends HttpServlet {
 //				case "orderList": page = userController.getPurchaseListByUser(req, res); break;
 //				case "deletePurchase": page = userController.deletePurchase(req, res); break;
 				// Notice
-//				case "noticeList": page = noticeController.getNoticeList(req, res); break;
-//				case "noticeDetail": page = noticeController.getNoticeDetail(req, res); break;
-//				case "getWrite": page = noticeController.getWrite(req, res); break;
-//				case "registerNotice": page = noticeController.registerNotice(req, res); break;
-//				case "deleteNotice" : page = noticeController.deleteNotice(req, res); break;
+				case "noticeList": page = noticeController.getNoticeList(req, res); break;
+				case "noticeDetail": page = noticeController.getNoticeDetail(req, res); break;
+				case "getWrite": page = noticeController.getWrite(req, res); break;
+				case "getEdit": page = noticeController.getEdit(req, res); break;
+				case "registerNotice": page = noticeController.registerNotice(req, res); break;
+				case "editNotice": page = noticeController.editNotice(req, res); break;
+				case "deleteNotice" : page = noticeController.deleteNotice(req, res); break;
 			}
 
 			if (page.isForward()) {

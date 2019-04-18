@@ -12,6 +12,8 @@
 </head>
 <body>
 <div class="container text-center" style="margin-top: 8%;">
+    <jsp:include page="../partial/nav.jsp"></jsp:include>
+
     <h1 class="ssafy">회원 정보 수정</h1>
     <hr>
 
