@@ -57,19 +57,19 @@ public class FoodServiceImpl implements FoodService {
     public String oversearch(int code, String id) {
     	String OverList = "";
     	Food food = fooddao.search(code);
-    	User user = userdao.searchById(id);
-    	
-    	if(user.getGender().equals("남")) {
-    		if(food.getCalory() > manNut[0]/2) OverList = OverList + "칼로리 ";
-            if(food.getCarbo() > manNut[1]/2) OverList = OverList + "탄수화물 ";
-            if(food.getProtein() > manNut[2]/2) OverList = OverList + "단백질 ";
-            if(food.getFat() > manNut[3]/2) OverList = OverList + "지방 ";
-    	} else {
-    		if(food.getCalory() > womanNut[0]/2) OverList = OverList + "칼로리 ";
-            if(food.getCarbo() > womanNut[1]/2) OverList = OverList + "탄수화물 ";
-            if(food.getProtein() > womanNut[2]/2) OverList = OverList + "단백질 ";
-            if(food.getFat() > womanNut[3]/2) OverList = OverList + "지방 ";
-    	}
+//    	User user = userdao.searchById(id);
+//
+//    	if(user.getGender().equals("남")) {
+//    		if(food.getCalory() > manNut[0]/2) OverList = OverList + "칼로리 ";
+//            if(food.getCarbo() > manNut[1]/2) OverList = OverList + "탄수화물 ";
+//            if(food.getProtein() > manNut[2]/2) OverList = OverList + "단백질 ";
+//            if(food.getFat() > manNut[3]/2) OverList = OverList + "지방 ";
+//    	} else {
+//    		if(food.getCalory() > womanNut[0]/2) OverList = OverList + "칼로리 ";
+//            if(food.getCarbo() > womanNut[1]/2) OverList = OverList + "탄수화물 ";
+//            if(food.getProtein() > womanNut[2]/2) OverList = OverList + "단백질 ";
+//            if(food.getFat() > womanNut[3]/2) OverList = OverList + "지방 ";
+//    	}
 		return OverList;
     }
 }

@@ -31,10 +31,8 @@
                 <c:forEach items="${users}" var="u" varStatus="status">
                     <tr>
                         <td>${status.count}</td>
-                        <td>${u.id}</td>
+                        <td>${u.userId}</td>
                         <td>${u.name}</td>
-                        <td>${u.age}</td>
-                        <td>${u.gender}</td>
                         <td><a href="${pageContext.request.contextPath}/main.do?action=userDelete&id=${u.id}">삭제</a>
                         </td>
                     </tr>

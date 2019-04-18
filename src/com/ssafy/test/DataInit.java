@@ -11,16 +11,14 @@ import java.util.List;
 
 public class DataInit {
 
-    public static void init() {
-        userInit();
-        noticeInit();
+    public static void init() throws Exception {
+//        userInit();
+//        noticeInit();
     }
 
-    private static void userInit() {
-        List<Food> foodList = new ArrayList<>();
-        List<String> allergyList = new ArrayList<>();
-        User user = new User("1", "1", "싸피", 28, "남", foodList, allergyList);
-        UserServiceImpl.getInstance().add(user);
+    private static void userInit() throws Exception {
+        User user = new User("1", "1", "싸피");
+        UserServiceImpl.getInstance().insert(user);
     }
 
     private static void noticeInit() {

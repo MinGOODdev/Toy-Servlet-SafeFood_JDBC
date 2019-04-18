@@ -21,7 +21,7 @@ public class FoodSaxParser {
      */
     public static FoodSaxParser foodSaxParser;
     public static FoodSaxParser getInstance() {
-    	
+
         if (foodSaxParser == null) foodSaxParser = new FoodSaxParser();
         return foodSaxParser;
     }

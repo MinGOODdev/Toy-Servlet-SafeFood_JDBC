@@ -55,27 +55,6 @@
             </c:if>
         </div>
 
-        <div class="form-group">
-            <label for="age">AGE</label>
-            <input class="form-control margin-auto login-input-width"
-                   type="number" id="age" name="age" value="1"
-                   placeholder="나이를 입력하세요.">
-
-            <c:if test="${errorMessages.ageError != null}">
-                <span class="error">${errorMessages.ageError}</span>
-            </c:if>
-        </div>
-
-        <div class="form-group">
-            <label>GENDER</label><br>
-            <label><input type="radio" name="gender" value="남"> 남</label>
-            <label><input type="radio" name="gender" value="여"> 여</label>
-            <br>
-            <c:if test="${errorMessages.genderError != null}">
-                <span class="error">${errorMessages.genderError}</span>
-            </c:if>
-        </div>
-
         <div>
             <label>Allergy</label><br>
             <label><input type="checkbox" name="allergy[]" value="대두"> 대두</label>

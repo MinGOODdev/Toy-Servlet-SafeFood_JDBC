@@ -19,9 +19,9 @@
         <input type="hidden" name="action" value="updateUser">
 
         <div class="form-group">
-            <label for="id">ID</label>
+            <label for="id">USER_ID</label>
             <input class="form-control margin-auto login-input-width"
-                   type="text" id="id" name="id" value="${user.id}" readonly>
+                   type="text" id="id" name="id" value="${user.userId}" readonly>
         </div>
 
         <div class="form-group">
@@ -30,26 +30,14 @@
                    type="text" id="name" name="name" value="${user.name}" readonly>
         </div>
 
-        <div class="form-group">
-            <label for="age">AGE</label>
-            <input class="form-control margin-auto login-input-width"
-                   type="number" id="age" name="age" value="${user.age}">
-        </div>
-
-        <div>
-            <label>GENDER</label><br>
-            <input class="form-control margin-auto login-input-width"
-                   type="text" id="gender" name="gender" value="${user.gender}" readonly>
-        </div>
-
         <br>
 
         <div>
             <label>현재 나의 알러지 정보</label><br>
             <c:choose>
-                <c:when test="${not empty user.allergyList}">
-                    <c:forEach items="${user.allergyList}" var="al">
-                        <span>${al}&nbsp;</span>
+                <c:when test="${not empty allergyList}">
+                    <c:forEach items="${allergyList}" var="al">
+                        <span>${al.name}&nbsp;</span>
                     </c:forEach>
                 </c:when>
             </c:choose>
