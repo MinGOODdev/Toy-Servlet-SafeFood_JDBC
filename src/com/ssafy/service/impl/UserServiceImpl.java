@@ -2,6 +2,7 @@ package com.ssafy.service.impl;
 
 import com.ssafy.dao.UserDao;
 import com.ssafy.dao.impl.UserDaoImpl;
+import com.ssafy.service.UserHasAllergyService;
 import com.ssafy.service.UserService;
 import com.ssafy.vo.User;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
     private UserDao userDao;
+    private UserHasAllergyService userHasAllergyService;
 
     /** 싱글톤 **/
     private static UserServiceImpl userService;
@@ -19,6 +21,7 @@ public class UserServiceImpl implements UserService {
 
     private UserServiceImpl() {
         userDao = UserDaoImpl.getInstance();
+        userHasAllergyService = UserHasAllergyServiceImpl.getInstance();
     }
 
     @Override
@@ -32,8 +35,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(String id) throws Exception {
-        userDao.delete(id);
+    public void delete(String userId) throws Exception {
+        int id = userDao.searchByUserId(userId).getId();
+        userHasAllergyService.deleteByUserId(id);
+        userDao.delete(userId);
     }
 
     @Override

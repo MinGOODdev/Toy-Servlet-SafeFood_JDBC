@@ -1,9 +1,5 @@
 package com.ssafy.controller;
 
-import com.ssafy.dao.AllergyDao;
-import com.ssafy.dao.UserHasAllergyDao;
-import com.ssafy.dao.impl.AllergyDaoImpl;
-import com.ssafy.dao.impl.UserHasAllergyDaoImpl;
 import com.ssafy.service.AllergyService;
 import com.ssafy.service.CheckService;
 import com.ssafy.service.UserHasAllergyService;
@@ -12,7 +8,10 @@ import com.ssafy.service.impl.AllergyServiceImpl;
 import com.ssafy.service.impl.CheckServiceImpl;
 import com.ssafy.service.impl.UserHasAllergyServiceImpl;
 import com.ssafy.service.impl.UserServiceImpl;
-import com.ssafy.vo.*;
+import com.ssafy.vo.Allergy;
+import com.ssafy.vo.PageInfo;
+import com.ssafy.vo.User;
+import com.ssafy.vo.UserHasAllergy;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +28,7 @@ public class AccountController {
     private UserHasAllergyService userHasAllergyService;
 
     private static AccountController accountController;
+
     public static AccountController getInstance() {
         if (accountController == null) accountController = new AccountController();
         return accountController;
@@ -41,7 +41,9 @@ public class AccountController {
         userHasAllergyService = UserHasAllergyServiceImpl.getInstance();
     }
 
-    /** 로그인 **/
+    /**
+     * 로그인
+     **/
     public PageInfo login(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id = request.getParameter("id");
         String pw = request.getParameter("pw");
@@ -63,11 +65,14 @@ public class AccountController {
                 response.addCookie(c);
             }
             return new PageInfo("main.do?action=foodList");
-        } else
+        } else {
             return new PageInfo(true, "login.jsp");
+        }
     }
 
-    /** 로그아웃 **/
+    /**
+     * 로그아웃
+     **/
     public PageInfo logout(HttpServletRequest request, HttpServletResponse response) {
         request.getSession().invalidate();
         return new PageInfo("login.jsp");
@@ -75,45 +80,30 @@ public class AccountController {
 
     /**
      * 비밀번호 찾기
-     */
+     **/
     public PageInfo findPw(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String id = request.getParameter("id");
         String name = request.getParameter("name");
 
         HashMap<String, String> errorMessages = checkService.checkFindPw(id, name);
-
         if (errorMessages.size() > 0) {
             request.setAttribute("errorMessages", errorMessages);
             return new PageInfo(true, "findPw.jsp");
         }
 
         String pw = checkService.findPassword(id, name);
-        if (pw != null) {
-            return new PageInfo("main.do?action=yourPwHere&pw=" + pw);
-        } else {
-            return new PageInfo(true, "findPw.jsp");
-        }
+        if (pw != null) return new PageInfo("main.do?action=yourPwHere&pw=" + pw);
+        else return new PageInfo(true, "findPw.jsp");
     }
 
-    /** 화원가입 **/
+    /**
+     * 화원가입
+     **/
     public PageInfo signUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = request.getParameter("id");
         String pw = request.getParameter("pw");
         String name = request.getParameter("name");
         String[] allergy = request.getParameterValues("allergy[]");
-
-        ArrayList<Allergy> result = new ArrayList<>();
-        List<Allergy> allergies = allergyService.findAll();
-        if (allergy != null) {
-            for (int i = 0; i < allergy.length; ++i) {
-                for (Allergy a : allergies) {
-                    if (a.getName().equals(allergy[i])) result.add(a);
-                }
-            }
-        }
-
-        for (String s : allergy) System.out.println(s);
-        System.out.println(allergies.toString());
 
         HashMap<String, String> errorMessages = checkService.checkForSignUp(userId, pw, name);
         if (errorMessages.size() > 0) {
@@ -122,14 +112,17 @@ public class AccountController {
         }
 
         User user = new User(userId, pw, name);
-        System.out.println(userId + " " + pw + " " + name);
         userService.insert(user);
-        System.out.println(userService.searchByUserId(userId) + " " + userService.searchByUserId(userId).getId());
+
+        List<Allergy> result = this.selectedAllergies(allergy);
         userHasAllergyService.insert(userService.searchByUserId(userId).getId(), result);
+
         return new PageInfo("login.jsp");
     }
 
-    /** 회원 정보 수정 (GET) **/
+    /**
+     * 회원 정보 수정 (GET)
+     **/
     public PageInfo getUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = (String) request.getSession().getAttribute("userId");
         User user = userService.searchByUserId(userId);
@@ -140,18 +133,57 @@ public class AccountController {
         for (UserHasAllergy temp : list) {
             allergies.add(allergyService.findByIdx(temp.getAllergyIdx()));
         }
-
         request.setAttribute("allergyList", allergies);
+
         return new PageInfo(true, "WEB-INF/user/mypage.jsp");
     }
 
-    /** 회원 정보 수정 (POST) **/
+    /**
+     * 회원 정보 수정 (POST)
+     **/
     public PageInfo updateUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = (String) request.getSession().getAttribute("userId");
         User user = userService.searchByUserId(userId);
         String name = request.getParameter("name");
         String[] allergy = request.getParameterValues("allergy[]");
 
+
+        userHasAllergyService.deleteByUserId(user.getId());
+        user.setName(name);
+        userService.update(user);
+        List<Allergy> result = this.selectedAllergies(allergy);
+        userHasAllergyService.insert(user.getId(), result);
+
+        return new PageInfo("main.do?action=mypage");
+    }
+
+    /**
+     * 회원 삭제
+     **/
+    public PageInfo deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String userId = request.getParameter("id");
+        userService.delete(userId);
+        return new PageInfo("main.do?action=userList");
+    }
+
+    /**
+     * 회원 전체 목록 조회
+     **/
+    public PageInfo getUserList(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request.setAttribute("users", userService.findAll());
+        return new PageInfo(true, "WEB-INF/user/list.jsp");
+    }
+
+    public PageInfo yourPwHere(HttpServletRequest request, HttpServletResponse response) {
+        String pw = request.getParameter("pw");
+        request.setAttribute("pw", pw);
+        return new PageInfo(true, "yourPwHere.jsp");
+    }
+
+    /**
+     * 선택된 알러지만 포함된 리스트 만들기
+     */
+    private List<Allergy> selectedAllergies(String[] allergy) throws Exception {
         ArrayList<Allergy> result = new ArrayList<>();
         List<Allergy> allergies = allergyService.findAll();
         if (allergy != null) {
@@ -161,33 +193,6 @@ public class AccountController {
                 }
             }
         }
-
-        user.setName(name);
-        userService.update(user);
-        userHasAllergyService.deleteByUserId(user.getId());
-        userHasAllergyService.insert(user.getId(), result);
-
-        return new PageInfo("main.do?action=mypage");
-    }
-
-    /** 회원 삭제 **/
-    public PageInfo deleteUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String userId = request.getParameter("id");
-        userService.delete(userId);
-        return new PageInfo("main.do?action=userList");
-    }
-
-    /** 회원 전체 목록 조회 **/
-    public PageInfo getUserList(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        List<User> users = userService.findAll();
-        request.setAttribute("users", users);
-        return new PageInfo(true, "WEB-INF/user/list.jsp");
-    }
-
-    public PageInfo yourPwHere(HttpServletRequest request, HttpServletResponse response) {
-        String pw = request.getParameter("pw");
-        System.out.println(pw);
-        request.setAttribute("pw", pw);
-        return new PageInfo(true, "yourPwHere.jsp");
+        return result;
     }
 }

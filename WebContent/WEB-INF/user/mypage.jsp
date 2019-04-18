@@ -27,7 +27,7 @@
         <div class="form-group">
             <label for="name">NAME</label>
             <input class="form-control margin-auto login-input-width"
-                   type="text" id="name" name="name" value="${user.name}" readonly>
+                   type="text" id="name" name="name" value="${user.name}">
         </div>
 
         <br>

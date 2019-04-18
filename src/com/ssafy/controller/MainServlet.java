@@ -1,6 +1,5 @@
 package com.ssafy.controller;
 
-import com.ssafy.test.DataInit;
 import com.ssafy.vo.PageInfo;
 
 import javax.servlet.ServletException;

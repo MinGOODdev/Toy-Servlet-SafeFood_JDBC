@@ -1,19 +1,17 @@
 package com.ssafy.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.ssafy.service.NoticeService;
 import com.ssafy.service.impl.NoticeServiceImpl;
 import com.ssafy.vo.Notice;
 import com.ssafy.vo.PageInfo;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public class NoticeController {
     private NoticeService noticeService;
 
-    /**
-     * 싱글톤
-     */
+    /** 싱글톤 **/
     private static NoticeController noticeController;
 
     public static NoticeController getInstance() {

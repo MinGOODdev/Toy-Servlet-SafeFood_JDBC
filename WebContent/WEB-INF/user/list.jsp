@@ -21,8 +21,6 @@
                 <th>#</th>
                 <th>ID</th>
                 <th>NAME</th>
-                <th>AGE</th>
-                <th>GENDER</th>
                 <th>-</th>
             </tr>
             </thead>
@@ -33,7 +31,7 @@
                         <td>${status.count}</td>
                         <td>${u.userId}</td>
                         <td>${u.name}</td>
-                        <td><a href="${pageContext.request.contextPath}/main.do?action=userDelete&id=${u.id}">삭제</a>
+                        <td><a href="${pageContext.request.contextPath}/main.do?action=userDelete&id=${u.userId}">삭제</a>
                         </td>
                     </tr>
                 </c:forEach>

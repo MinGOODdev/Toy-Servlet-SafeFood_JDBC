@@ -90,7 +90,7 @@ public class UserHasAllergyDaoImpl implements UserHasAllergyDao {
             conn = DBUtil.getConnection();
             stmt = conn.prepareStatement(sql);
             stmt.setInt(1, userId);
-            stmt.executeLargeUpdate();
+            stmt.executeUpdate();
 
         } finally {
             DBUtil.close(stmt);

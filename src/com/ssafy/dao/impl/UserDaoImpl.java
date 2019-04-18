@@ -7,19 +7,23 @@ import com.ssafy.vo.User;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
-    /** 싱글톤 **/
+    /**
+     * 싱글톤
+     **/
     private static UserDaoImpl userDao;
+
     public static UserDaoImpl getInstance() {
         if (userDao == null) userDao = new UserDaoImpl();
         return userDao;
     }
 
-    /** 회원 전체 조회 **/
+    /**
+     * 회원 전체 조회
+     **/
     @Override
     public List<User> findAll() throws Exception {
         ArrayList<User> list = new ArrayList<>();
@@ -33,7 +37,7 @@ public class UserDaoImpl implements UserDao {
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 list.add(new User(
                         rs.getInt(1),
                         rs.getString(2),
@@ -51,7 +55,9 @@ public class UserDaoImpl implements UserDao {
         return list;
     }
 
-    /** 회원 추가 **/
+    /**
+     * 회원 추가
+     **/
     @Override
     public void insert(User user) throws Exception {
         Connection conn = null;
@@ -73,12 +79,14 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
-    /** 회원 정보 수정 **/
+    /**
+     * 회원 정보 수정
+     **/
     @Override
     public void update(User user) throws Exception {
         Connection conn = null;
         PreparedStatement stmt = null;
-        String sql = "UPDATE USER SET name = ? WHERE userId = ?";
+        String sql = "UPDATE USER SET name = ? WHERE id = ?";
 
         try {
             conn = DBUtil.getConnection();
@@ -87,19 +95,36 @@ public class UserDaoImpl implements UserDao {
             stmt.setInt(2, user.getId());
             stmt.executeUpdate();
 
-        }finally {
+        } finally {
             DBUtil.close(stmt);
             DBUtil.close(conn);
         }
     }
 
-    /** 회원 삭제 **/
+    /**
+     * 회원 삭제
+     **/
     @Override
-    public void delete(String userId) {
-        userDao.delete(userId);
+    public void delete(String userId) throws Exception {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        String sql = "DELETE FROM USER WHERE userId = ?";
+
+        try {
+            conn = DBUtil.getConnection();
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, userId);
+            stmt.executeUpdate();
+
+        } finally {
+            DBUtil.close(stmt);
+            DBUtil.close(conn);
+        }
     }
 
-    /** 회원 아이디로 검색 **/
+    /**
+     * 회원 아이디로 검색
+     **/
     @Override
     public User searchByUserId(String userId) throws Exception {
         User user = null;
