@@ -117,6 +117,8 @@ public class AccountController {
         HashMap<String, String> errorMessages = checkService.checkForSignUp(userId, pw, name);
         if (errorMessages.size() > 0) {
             request.setAttribute("errorMessages", errorMessages);
+            List<Allergy> result = this.selectedAllergies(allergy);
+            userHasAllergyService.insert(userService.findByUserId(userId).getId(), result);
             return new PageInfo(true, "signUp.jsp");
         }
 

@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -50,10 +49,14 @@
             </c:if>
             </tbody>
         </table>
+
+        <h3>알러지를 조심하세요.</h3>
         <table class="table table-hover table-bordered">
-            <c:forEach items="${allergyCaution}" var="a">
+            <c:forEach items="${purchaseList}" var="p">
                 <tr>
-                    <td style="color: red">${a}</td>
+                    <c:forEach items="${p.allergyList}" var="a">
+                        <td style="color: red">${a.name}</td>
+                    </c:forEach>
                 </tr>
             </c:forEach>
         </table>
