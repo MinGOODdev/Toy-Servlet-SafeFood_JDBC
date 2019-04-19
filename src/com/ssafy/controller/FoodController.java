@@ -38,11 +38,11 @@ public class FoodController {
     /**
      * 식품 상세 조회
      */
-    public PageInfo getFoodDetail(HttpServletRequest request, HttpServletResponse response) {
-        String code = request.getParameter("code");
-        Food food = foodService.search(Integer.parseInt(code));
-        String id = (String) request.getSession().getAttribute("userId");
-        String overList = foodService.oversearch(Integer.parseInt(code), id);
+    public PageInfo getFoodDetail(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int code = Integer.parseInt(request.getParameter("code"));
+        Food food = foodService.search(code);
+
+        String overList = foodService.overValueSearch(code);
         request.setAttribute("food", food);
         request.setAttribute("overList", overList);
         return new PageInfo(true, "WEB-INF/food/view.jsp");
