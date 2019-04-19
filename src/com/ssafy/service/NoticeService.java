@@ -6,12 +6,14 @@ import com.ssafy.vo.Notice;
 
 public interface NoticeService {
 
-    List<Notice> searchAll();
+    List<Notice> findAll() throws Exception;
 
-    Notice search(String title);
+    Notice findById(int id) throws Exception;
 
-    void registerNotice(Notice notice);
+    void registerNotice(Notice notice) throws Exception;
 
-    void deleteNotice(String title);
+    void update(Notice notice) throws Exception;
+
+    void deleteById(int id) throws Exception;
 
 }

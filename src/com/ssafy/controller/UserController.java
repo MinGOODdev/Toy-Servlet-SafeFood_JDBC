@@ -24,8 +24,7 @@ public class UserController {
 	private static UserController userController;
 
 	public static UserController getInstance() {
-		if (userController == null)
-			userController = new UserController();
+		if (userController == null) userController = new UserController();
 		return userController;
 	}
 
@@ -41,30 +40,30 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
-	public PageInfo getPurchaseListByUser(HttpServletRequest request, HttpServletResponse response) {
-		String id = (String) request.getSession().getAttribute("userId");
-		List<String> allergyCaution = new ArrayList<>();
-		for (User u : userService.findAll()) {
-			if (u.getId().equalsIgnoreCase(id)) {
-				request.setAttribute("purchaseList", u.getFoodList());
-				for (Food f : u.getFoodList()) {
-					boolean check = false;
-					String caution = "알러지 경고!! " + f.getName() + "에 ";
-					for (String a : u.getAllergyList()) {
-						if (f.getAllergy().contains(a)) {
-							caution = caution + a + " ";
-							check = true;
-						}
-					}
-					caution = caution + "가 함유되어 있습니다.";
-					if (check)
-						allergyCaution.add(caution);
-				}
-				request.setAttribute("allergyCaution", allergyCaution);
-			}
-		}
-		return new PageInfo(true, "WEB-INF/user/orderList.jsp");
-	}
+//	public PageInfo getPurchaseListByUser(HttpServletRequest request, HttpServletResponse response) {
+//		String id = (String) request.getSession().getAttribute("userId");
+//		List<String> allergyCaution = new ArrayList<>();
+//		for (User u : userService.findAll()) {
+//			if (u.getId().equalsIgnoreCase(id)) {
+//				request.setAttribute("purchaseList", u.getFoodList());
+//				for (Food f : u.getFoodList()) {
+//					boolean check = false;
+//					String caution = "알러지 경고!! " + f.getName() + "에 ";
+//					for (String a : u.getAllergyList()) {
+//						if (f.getAllergy().contains(a)) {
+//							caution = caution + a + " ";
+//							check = true;
+//						}
+//					}
+//					caution = caution + "가 함유되어 있습니다.";
+//					if (check)
+//						allergyCaution.add(caution);
+//				}
+//				request.setAttribute("allergyCaution", allergyCaution);
+//			}
+//		}
+//		return new PageInfo(true, "WEB-INF/user/orderList.jsp");
+//	}
 
 	/**
 	 * 식품 구매(섭취)
@@ -73,23 +72,23 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
-	public PageInfo doPurchase(HttpServletRequest request, HttpServletResponse response) {
-		String id = (String) request.getSession().getAttribute("userId");
-		String code = request.getParameter("code");
-
-		Food temp = null;
-		for (Food b : foodService.searchAll(new FoodPageBean())) {
-			if (b.getCode() == Integer.parseInt(code))
-				temp = b;
-		}
-
-		for (User u : userService.findAll()) {
-			if (u.getId().equalsIgnoreCase(id)) {
-				u.getFoodList().add(temp);
-			}
-		}
-		return new PageInfo("main.do?action=foodList");
-	}
+//	public PageInfo doPurchase(HttpServletRequest request, HttpServletResponse response) {
+//		String id = (String) request.getSession().getAttribute("userId");
+//		String code = request.getParameter("code");
+//
+//		Food temp = null;
+//		for (Food b : foodService.searchAll(new FoodPageBean())) {
+//			if (b.getCode() == Integer.parseInt(code))
+//				temp = b;
+//		}
+//
+//		for (User u : userService.findAll()) {
+//			if (u.getId().equalsIgnoreCase(id)) {
+//				u.getFoodList().add(temp);
+//			}
+//		}
+//		return new PageInfo("main.do?action=foodList");
+//	}
 
 	/**
 	 * 섭취한 식품 삭제
@@ -98,19 +97,19 @@ public class UserController {
 	 * @param response
 	 * @return
 	 */
-	public PageInfo deletePurchase(HttpServletRequest request, HttpServletResponse response) {
-		String id = (String) request.getSession().getAttribute("userId");
-		String code = request.getParameter("code");
-
-		User user = null;
-		for (User u : userService.findAll()) {
-			if (u.getId().equalsIgnoreCase(id)) user = u;
-		}
-
-		List<Food> foods = user.getFoodList();
-		for (int i = 0; i < foods.size(); ++i) {
-			if (foods.get(i).getCode() == Integer.parseInt(code)) foods.remove(i);
-		}
-		return new PageInfo("main.do?action=orderList");
-	}
+//	public PageInfo deletePurchase(HttpServletRequest request, HttpServletResponse response) {
+//		String id = (String) request.getSession().getAttribute("userId");
+//		String code = request.getParameter("code");
+//
+//		User user = null;
+//		for (User u : userService.findAll()) {
+//			if (u.getId().equalsIgnoreCase(id)) user = u;
+//		}
+//
+//		List<Food> foods = user.getFoodList();
+//		for (int i = 0; i < foods.size(); ++i) {
+//			if (foods.get(i).getCode() == Integer.parseInt(code)) foods.remove(i);
+//		}
+//		return new PageInfo("main.do?action=orderList");
+//	}
 }

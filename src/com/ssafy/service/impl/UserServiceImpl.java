@@ -2,6 +2,7 @@ package com.ssafy.service.impl;
 
 import com.ssafy.dao.UserDao;
 import com.ssafy.dao.impl.UserDaoImpl;
+import com.ssafy.service.UserHasAllergyService;
 import com.ssafy.service.UserService;
 import com.ssafy.vo.User;
 
@@ -9,10 +10,9 @@ import java.util.List;
 
 public class UserServiceImpl implements UserService {
     private UserDao userDao;
+    private UserHasAllergyService userHasAllergyService;
 
-    /**
-     * 싱글톤
-     */
+    /** 싱글톤 **/
     private static UserServiceImpl userService;
     public static UserServiceImpl getInstance() {
         if (userService == null) userService = new UserServiceImpl();
@@ -21,30 +21,33 @@ public class UserServiceImpl implements UserService {
 
     private UserServiceImpl() {
         userDao = UserDaoImpl.getInstance();
+        userHasAllergyService = UserHasAllergyServiceImpl.getInstance();
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAll() throws Exception {
         return userDao.findAll();
     }
 
     @Override
-    public void add(User user) {
-        userDao.add(user);
+    public void insert(User user) throws Exception {
+        userDao.insert(user);
     }
 
     @Override
-    public void delete(String id) {
-        userDao.delete(id);
+    public void delete(String userId) throws Exception {
+        int id = userDao.findByUserId(userId).getId();
+        userHasAllergyService.deleteByUserId(id);
+        userDao.delete(userId);
     }
 
     @Override
-    public User[] searchByName(String name) {
-        return userDao.searchByName(name);
+    public void update(User user) throws Exception {
+        userDao.update(user);
     }
 
     @Override
-    public User searchById(String id) {
-        return userDao.searchById(id);
+    public User findByUserId(String userId) throws Exception {
+        return userDao.findByUserId(userId);
     }
 }

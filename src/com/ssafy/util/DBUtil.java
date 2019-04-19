@@ -1,15 +1,13 @@
 package com.ssafy.util;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBUtil {
 	private static DataSource ds = null;
@@ -27,7 +25,7 @@ public class DBUtil {
 	}
 
 	public static Connection getConnection() throws SQLException {
-		return ds.getConnection(); // pool에서 빌려오기
+		return ds.getConnection();
 	}
 
 	public static void close(ResultSet rs) {

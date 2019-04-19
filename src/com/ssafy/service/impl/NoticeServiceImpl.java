@@ -8,7 +8,7 @@ import com.ssafy.service.NoticeService;
 import com.ssafy.vo.Notice;
 
 public class NoticeServiceImpl implements NoticeService {
-    private NoticeDao dao;
+    private NoticeDao noticeDao;
 
     /**
      * 싱글톤
@@ -21,27 +21,32 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     private NoticeServiceImpl() {
-        dao = NoticeDaoImpl.getInstance();
+        noticeDao = NoticeDaoImpl.getInstance();
     }
 
     @Override
-    public List<Notice> searchAll() {
-        return dao.searchAll();
+    public List<Notice> findAll() throws Exception {
+        return noticeDao.findAll();
     }
 
     @Override
-    public Notice search(String title) {
-        return dao.search(title);
+    public Notice findById(int id) throws Exception {
+        return noticeDao.findById(id);
     }
 
     @Override
-    public void registerNotice(Notice notice) {
-        dao.registerNotice(notice);
+    public void registerNotice(Notice notice) throws Exception {
+        noticeDao.registerNotice(notice);
     }
 
     @Override
-    public void deleteNotice(String title) {
-        dao.deleteNotice(title);
+    public void update(Notice notice) throws Exception {
+        noticeDao.update(notice);
+    }
+
+    @Override
+    public void deleteById(int id) throws Exception {
+        noticeDao.deleteById(id);
     }
 
 }

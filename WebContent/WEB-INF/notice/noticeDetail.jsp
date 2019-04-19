@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>구매 내역</title>
+    <title>공지 조회</title>
     <meta charset="UTF-8">
 
     <jsp:include page="../partial/config.jsp"></jsp:include>
@@ -33,9 +33,12 @@
         </table>
         <div style="width: 100%; text-align:center">
             <input type="button" value="삭제"
-                   onclick="location.href='${pageContext.request.contextPath}/main.do?action=deleteNotice&title=${noticeDetail.title}'"
+                   onclick="location.href='${pageContext.request.contextPath}/main.do?action=deleteNotice&id=${noticeDetail.id}'"
                    class="btn btn-danger">
         </div>
+        <h3 style="text-align: right">
+            <a href="${pageContext.request.contextPath}/main.do?action=getEdit&id=${noticeDetail.id}" class="btn btn-primary">글 수정</a>
+        </h3>
     </div>
 </div>
 </body>

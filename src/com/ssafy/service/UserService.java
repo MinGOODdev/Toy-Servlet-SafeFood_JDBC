@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface UserService {
 
-    List<User> findAll();
+    List<User> findAll() throws Exception;
 
-    void add(User user);
+    void insert(User user) throws Exception;
 
-    void delete(String id);
+    void delete(String id) throws Exception;
 
-    User[] searchByName(String name);
+    void update(User user) throws Exception;
 
-    User searchById(String id);
+    User findByUserId(String userId) throws Exception;
 
 }

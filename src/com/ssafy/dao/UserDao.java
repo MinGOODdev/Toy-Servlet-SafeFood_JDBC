@@ -2,18 +2,19 @@ package com.ssafy.dao;
 
 import com.ssafy.vo.User;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface UserDao {
 
-    List<User> findAll();
+    List<User> findAll() throws Exception;
 
-    void add(User user);
+    void insert(User user) throws Exception;
 
-    void delete(String id);
+    void update(User user) throws Exception;
 
-    User[] searchByName(String name);
+    void delete(String userId) throws Exception;
 
-    User searchById(String id);
+    User findByUserId(String userId) throws Exception;
 
 }

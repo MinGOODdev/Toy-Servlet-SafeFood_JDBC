@@ -1,6 +1,5 @@
 package com.ssafy.controller;
 
-import com.ssafy.test.DataInit;
 import com.ssafy.vo.PageInfo;
 
 import javax.servlet.ServletException;
@@ -21,7 +20,7 @@ public class MainServlet extends HttpServlet {
 	
 	@Override
 	public void init() throws ServletException {
-		DataInit.init();
+
 	}
 
 	@Override
@@ -55,14 +54,16 @@ public class MainServlet extends HttpServlet {
 				case "userList": page = accountController.getUserList(req, res); break;
 				case "userDelete": page = accountController.deleteUser(req, res); break;
 				// User
-				case "order": page = userController.doPurchase(req, res); break;
-				case "orderList": page = userController.getPurchaseListByUser(req, res); break;
-				case "deletePurchase": page = userController.deletePurchase(req, res); break;
+//				case "order": page = userController.doPurchase(req, res); break;
+//				case "orderList": page = userController.getPurchaseListByUser(req, res); break;
+//				case "deletePurchase": page = userController.deletePurchase(req, res); break;
 				// Notice
 				case "noticeList": page = noticeController.getNoticeList(req, res); break;
 				case "noticeDetail": page = noticeController.getNoticeDetail(req, res); break;
 				case "getWrite": page = noticeController.getWrite(req, res); break;
+				case "getEdit": page = noticeController.getEdit(req, res); break;
 				case "registerNotice": page = noticeController.registerNotice(req, res); break;
+				case "editNotice": page = noticeController.editNotice(req, res); break;
 				case "deleteNotice" : page = noticeController.deleteNotice(req, res); break;
 				// Food insert DB
 				case "insertFood" : page = FoodDBController.insertFoodDB(); break;
@@ -76,6 +77,7 @@ public class MainServlet extends HttpServlet {
 				return;
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			req.setAttribute("errorMsg", e.getMessage());
 			req.setAttribute("exception", e);
 			// 서버가 바로보는 '/'는 애플리케이션의 루트다.

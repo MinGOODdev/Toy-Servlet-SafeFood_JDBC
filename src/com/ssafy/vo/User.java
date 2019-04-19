@@ -1,80 +1,77 @@
 package com.ssafy.vo;
 
-import java.util.List;
-
 public class User {
-    private String id;
-    private String pw;
+    private int id;
+    private String userId;
+    private String password;
     private String name;
-    private int age;
-    private String gender;
-    private List<Food> foodList;
-    private List<String> allergyList;
+    private int auth;
 
-    public User(String id, String pw, String name, int age, String gender, List<Food> foodList, List<String> allergyList) {
-        this.id = id;
-        this.pw = pw;
-        this.name = name;
-        this.age = age;
-        this.gender = gender;
-        this.foodList = foodList;
-        this.allergyList = allergyList;
+    public User() {
     }
 
-    public String getId() {
+    public User(String userId, String password, String name) {
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+    }
+
+    public User(int id, String userId, String password, String name, int auth) {
+        this.id = id;
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.auth = auth;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public String getPw() {
-        return pw;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public List<Food> getFoodList() {
-        return foodList;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setPw(String pw) {
-        this.pw = pw;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public int getAuth() {
+        return auth;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setAuth(int auth) {
+        this.auth = auth;
     }
 
-    public void setFoodList(List<Food> foodList) {
-        this.foodList = foodList;
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", userId='" + userId + '\'' +
+                ", password='" + password + '\'' +
+                ", name='" + name + '\'' +
+                ", auth=" + auth +
+                '}';
     }
-
-    public void setAllergyList(List<String> allergyList) {
-        this.allergyList = allergyList;
-    }
-
-    public List<String> getAllergyList() {
-        return allergyList;
-    }
-    
 }

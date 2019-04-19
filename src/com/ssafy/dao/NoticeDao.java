@@ -1,17 +1,19 @@
 package com.ssafy.dao;
 
-import java.util.List;
-
 import com.ssafy.vo.Notice;
+
+import java.util.List;
 
 public interface NoticeDao {
 
-    List<Notice> searchAll();
+    List<Notice> findAll() throws Exception;
 
-    Notice search(String title);
+    Notice findById(int id) throws Exception;
 
-    void registerNotice(Notice notice);
+    void registerNotice(Notice notice) throws Exception;
 
-    void deleteNotice(String title);
+    void update(Notice notice) throws Exception;
+
+    void deleteById(int id) throws Exception;
 
 }
