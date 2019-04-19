@@ -1,5 +1,7 @@
 package com.ssafy.vo;
 
+import java.util.ArrayList;
+
 /**
  * 식품 정보
  */
@@ -19,7 +21,7 @@ public class Food {
     private String maker;           // 제조사
     private String material;        // 원재료
     private String img;             // 이미지 경로
-    private String allergy;         // 알러지 정보
+    private String allergy;
 
     public Food() {
     }
@@ -149,20 +151,19 @@ public class Food {
         this.img = img;
     }
 
-    public String getAllergy() {
-        return allergy;
-    }
+	public String getAllergy() {
+		return allergy;
+	}
 
-    public void setAllergy(String allergy) {
-        this.allergy = allergy;
-    }
+	public void setAllergy(String allergy) {
+		this.allergy = allergy;
+	}
 
-    @Override
-    public String toString() {
-        return "Food [code=" + code + ", name=" + name + ", supportpereat=" + supportpereat + ", calory=" + calory
-                + ", carbo=" + carbo + ", protein=" + protein + ", fat=" + fat + ", sugar=" + sugar + ", natrium="
-                + natrium + ", chole=" + chole + ", fattyacid=" + fattyacid + ", transfat=" + transfat + ", maker="
-                + maker + ", material=" + material + ", img=" + img + "]";
-    }
-
+	@Override
+	public String toString() {
+		return "Food [code=" + code + ", name=" + name + ", supportpereat=" + supportpereat + ", calory=" + calory
+				+ ", carbo=" + carbo + ", protein=" + protein + ", fat=" + fat + ", sugar=" + sugar + ", natrium="
+				+ natrium + ", chole=" + chole + ", fattyacid=" + fattyacid + ", transfat=" + transfat + ", maker="
+				+ maker + ", material=" + material + ", img=" + img + ", allergy=" + allergy + "]";
+	}
 }

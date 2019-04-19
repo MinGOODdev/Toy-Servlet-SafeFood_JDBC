@@ -51,6 +51,7 @@ public class DBUtil {
 	public static void close(Connection conn) {
 		if (conn != null)
 			try {
+				conn.setAutoCommit(true);
 				conn.close();
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -5,18 +5,25 @@ import com.ssafy.dao.UserDao;
 import com.ssafy.dao.impl.FoodDaoImpl;
 import com.ssafy.dao.impl.UserDaoImpl;
 import com.ssafy.service.FoodService;
+import com.ssafy.util.DBUtil;
 import com.ssafy.vo.Food;
 import com.ssafy.vo.User;
 import com.ssafy.vo.FoodPageBean;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class FoodServiceImpl implements FoodService {
     private FoodDao fooddao;
     private UserDao userdao;
-    private String[] allergys = {"대두", "땅콩", "우유", "게", "새우",
-            "참치", "연어", "쑥", "소고기", "닭고기", "돼지고기",
-            "복숭아", "민들레", "계란흰자"};
+    /*    
+	private String[] allergys = {"대두", "땅콩", "우유", "게", "새우",
+    		"참치", "연어", "쑥", "소고기", "닭고기", "돼지고기",
+    		"복숭아", "민들레", "계란흰자"};
+    */
     private int[] manNut = {2600, 360, 55, 100};
     private int[] womanNut = {2100, 290, 50, 80};
     
@@ -26,7 +33,9 @@ public class FoodServiceImpl implements FoodService {
     private static FoodServiceImpl foodService;
 
     public static FoodServiceImpl getInstance() {
-        if (foodService == null) foodService = new FoodServiceImpl();
+        if (foodService == null) {
+        	foodService = new FoodServiceImpl();
+        }
         return foodService;
     }
 
@@ -44,11 +53,26 @@ public class FoodServiceImpl implements FoodService {
     public Food search(int code) {
         String allergyList = "";
         Food food = fooddao.search(code);
-        for (int i = 0; i < allergys.length; i++) {
-            if (food.getMaterial().contains(allergys[i])) {
-                allergyList = allergyList + allergys[i] + " ";
-            }
-        }
+        Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select name from allergy where idx = any((select ALLERGY_idx from food_has_allergy where FOOD_code = ?))";
+		try {
+			conn = DBUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.setInt(1, food.getCode());
+			rs = stmt.executeQuery();
+
+			while(rs.next()) {
+				allergyList = allergyList + rs.getString(1) + " ";
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(stmt);
+			DBUtil.close(conn);
+		}
         // code에 맞는 식품 정보를 검색하고, 검색된 식품의 원재료에 알레르기 성분이 있는지 확인하여 Food 정보에 입력한다.
         food.setAllergy(allergyList);
         return food;
