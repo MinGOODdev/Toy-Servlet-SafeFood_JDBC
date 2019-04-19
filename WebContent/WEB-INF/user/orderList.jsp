@@ -38,6 +38,7 @@
                         <td>${f.supportpereat} g</td>
                         <td>${f.calory} kcal</td>
                         <td>${f.allergy}</td>
+                        <td>${f.allergy}</td>
                         <td>
                             <form action="${pageContext.request.contextPath}/main.do" method="post">
                                 <input type="hidden" name="action" value="deletePurchase">

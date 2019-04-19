@@ -29,10 +29,6 @@ public class FoodController {
 
     /**
      * 모든 식품 조회
-     *
-     * @param request
-     * @param response
-     * @return
      */
     public PageInfo getFoodList(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("foods", foodService.searchAll(new FoodPageBean()));
@@ -41,10 +37,6 @@ public class FoodController {
 
     /**
      * 식품 상세 조회
-     *
-     * @param request
-     * @param response
-     * @return
      */
     public PageInfo getFoodDetail(HttpServletRequest request, HttpServletResponse response) {
         String code = request.getParameter("code");

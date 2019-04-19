@@ -18,6 +18,10 @@ public class NoticeDaoImpl implements NoticeDao {
         return noticeDao;
     }
 
+    private NoticeDaoImpl() {
+
+    }
+
     @Override
     public List<Notice> findAll() throws Exception {
         ArrayList<Notice> list = new ArrayList<>();

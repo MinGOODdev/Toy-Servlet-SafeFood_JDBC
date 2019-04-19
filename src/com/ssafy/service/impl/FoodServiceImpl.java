@@ -33,9 +33,7 @@ public class FoodServiceImpl implements FoodService {
     private static FoodServiceImpl foodService;
 
     public static FoodServiceImpl getInstance() {
-        if (foodService == null) {
-        	foodService = new FoodServiceImpl();
-        }
+        if (foodService == null) foodService = new FoodServiceImpl();
         return foodService;
     }
 
