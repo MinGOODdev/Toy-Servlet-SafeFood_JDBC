@@ -24,7 +24,7 @@
                 <th>제조사</th>
                 <th>1회 제공량</th>
                 <th>칼로리</th>
-                <th>알레르기 정보</th>
+                <th>수량</th>
                 <th>-</th>
             </tr>
             </thead>
@@ -33,16 +33,15 @@
                 <c:forEach items="${purchaseList}" var="f" varStatus="status">
                     <tr>
                         <td>${status.count}</td>
-                        <td>${f.name}</td>
-                        <td>${f.maker}</td>
-                        <td>${f.supportpereat} g</td>
-                        <td>${f.calory} kcal</td>
-                        <td>${f.allergy}</td>
-                        <td>${f.allergy}</td>
+                        <td>${f.food.name}</td>
+                        <td>${f.food.maker}</td>
+                        <td>${f.food.supportpereat} g</td>
+                        <td>${f.food.calory} kcal</td>
+                        <td>${f.count}</td>
                         <td>
                             <form action="${pageContext.request.contextPath}/main.do" method="post">
                                 <input type="hidden" name="action" value="deletePurchase">
-                                <input type="hidden" name="code" value="${f.code}">
+                                <input type="hidden" name="code" value="${f.food.code}">
                                 <button class="btn-sm btn-danger">삭제</button>
                             </form>
                         </td>

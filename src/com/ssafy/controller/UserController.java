@@ -45,13 +45,13 @@ public class UserController {
 		String userId = (String) request.getSession().getAttribute("userId");
 		int id = userService.findByUserId(userId).getId();
 		List<EatFood> eatFoods = eatFoodService.findAllByUserId(id);
-		List<Food> foods = new ArrayList<>();
-		List<Integer> count = new ArrayList<>();
+		List<UserFood> userFoods = new ArrayList<>();
 		for (EatFood eatFood : eatFoods) {
-			foods.add(foodService.search(eatFood.getFoodCode()));
-			count.add(eatFood.getCount());
+			Food food = foodService.search(eatFood.getFoodCode());
+			int count = eatFood.getCount();
+			userFoods.add(new UserFood(food, count));
 		}
-		request.setAttribute("purchaseList", foods);
+		request.setAttribute("purchaseList", userFoods);
 		return new PageInfo(true, "WEB-INF/user/orderList.jsp");
 	}
 

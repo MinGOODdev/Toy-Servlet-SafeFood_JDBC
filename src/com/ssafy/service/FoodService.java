@@ -11,6 +11,6 @@ public interface FoodService {
 
     Food search(int code);
 
-    String oversearch(int code, String id);
+    String overValueSearch(int code) throws Exception;
 
 }
