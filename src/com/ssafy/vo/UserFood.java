@@ -1,15 +1,19 @@
 package com.ssafy.vo;
 
+import java.util.List;
+
 public class UserFood {
     private Food food;
     private int count;
+    private List<Allergy> allergyList;
 
     public UserFood() {
     }
 
-    public UserFood(Food food, int count) {
+    public UserFood(Food food, int count, List<Allergy> allergies) {
         this.food = food;
         this.count = count;
+        this.allergyList = allergies;
     }
 
     public Food getFood() {
@@ -26,5 +30,13 @@ public class UserFood {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public List<Allergy> getAllergyList() {
+        return allergyList;
+    }
+
+    public void setAllergyList(List<Allergy> allergyList) {
+        this.allergyList = allergyList;
     }
 }

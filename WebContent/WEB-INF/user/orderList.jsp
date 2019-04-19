@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -24,6 +23,7 @@
                 <th>제조사</th>
                 <th>1회 제공량</th>
                 <th>칼로리</th>
+                <th>알러지주의</th>
                 <th>수량</th>
                 <th>-</th>
             </tr>
@@ -37,6 +37,11 @@
                         <td>${f.food.maker}</td>
                         <td>${f.food.supportpereat} g</td>
                         <td>${f.food.calory} kcal</td>
+                        <td>
+                            <c:forEach items="${f.allergyList}" var="a">
+                                ${a.name}
+                            </c:forEach>
+                        </td>
                         <td>${f.count}</td>
                         <td>
                             <form action="${pageContext.request.contextPath}/main.do" method="post">
@@ -49,13 +54,6 @@
                 </c:forEach>
             </c:if>
             </tbody>
-        </table>
-        <table class="table table-hover table-bordered">
-            <c:forEach items="${allergyCaution}" var="a">
-                <tr>
-                    <td style="color: red">${a}</td>
-                </tr>
-            </c:forEach>
         </table>
     </div>
 </div>
