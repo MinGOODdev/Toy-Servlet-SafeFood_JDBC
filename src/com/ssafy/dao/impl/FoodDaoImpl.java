@@ -90,7 +90,7 @@ public class FoodDaoImpl implements FoodDao {
 				if (!key.equals("all") && word != null && !word.trim().equals("")) {
 					switch (key) {
 					case "name":
-						sql = "SELECT * FROM food where name like concat('%','?','%')";
+						sql = "SELECT * FROM food where name like concat('%',?,'%')";
 						stmt = conn.prepareStatement(sql);
                     	stmt.setString(1, word);
                     	rs = stmt.executeQuery();
@@ -116,7 +116,7 @@ public class FoodDaoImpl implements FoodDao {
                     	}
 						break;
 					case "maker":
-						sql = "SELECT * FROM food where maker like concat('%','?','%')";
+						sql = "SELECT * FROM food where maker like concat('%',?,'%')";
 						stmt = conn.prepareStatement(sql);
                     	stmt.setString(1, word);
                     	rs = stmt.executeQuery();
@@ -142,7 +142,7 @@ public class FoodDaoImpl implements FoodDao {
                     	}
 						break;
 					case "material":
-						sql = "SELECT * FROM food where material like concat('%','?','%')";
+						sql = "SELECT * FROM food where material like concat('%',?,'%')";
 						stmt = conn.prepareStatement(sql);
                     	stmt.setString(1, word);
                     	rs = stmt.executeQuery();
