@@ -78,34 +78,108 @@ public class FoodDaoImpl implements FoodDao {
 	@Override
 	public List<Food> searchAll(FoodPageBean bean) {
 		List<Food> finds = new ArrayList<>();
-		List<Food> foods = loadData();
-		if (bean != null) {
-            String key = bean.getKey();
-            String word = bean.getWord();
-            if (!key.equals("all") && word != null && !word.trim().equals("")) {
-                switch (key) {
-                    case "name":
-                        for (Food f : foods) {
-                            if (f.getName().contains(word)) finds.add(f);
-                        }
-                        break;
-                    case "maker":
-                        for (Food f : foods) {
-                            if (f.getMaker().contains(word)) finds.add(f);
-                        }
-                        break;
-                    case "material":
-                        for (Food f : foods) {
-                            if (f.getMaterial().contains(word)) finds.add(f);
-                        }
-                        break;
-                }
-                return finds;
-            }else {
-            	return foods;
-            }
-        }
-        return finds;
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "";
+		try {
+			conn = DBUtil.getConnection();
+			if (bean != null) {
+				String key = bean.getKey();
+				String word = bean.getWord();
+				if (!key.equals("all") && word != null && !word.trim().equals("")) {
+					switch (key) {
+					case "name":
+						sql = "SELECT * FROM food where name like concat('%','?','%')";
+						stmt = conn.prepareStatement(sql);
+                    	stmt.setString(1, word);
+                    	rs = stmt.executeQuery();
+
+                    	while(rs.next()) {
+                    		Food food = new Food();
+            				food.setCode(rs.getInt(1));
+            				food.setName(rs.getString(2));
+            				food.setSupportpereat(rs.getDouble(3));
+            				food.setCalory(rs.getDouble(4));
+            				food.setCarbo(rs.getDouble(5));
+            				food.setProtein(rs.getDouble(6));
+            				food.setFat(rs.getDouble(7));
+            				food.setSugar(rs.getDouble(8));
+            				food.setNatrium(rs.getDouble(9));
+            				food.setChole(rs.getDouble(10));
+            				food.setFattyacid(rs.getDouble(11));
+            				food.setTransfat(rs.getDouble(12));
+            				food.setMaker(rs.getString(13));
+            				food.setMaterial(rs.getString(14));
+            				food.setImg(rs.getString(15));
+            				finds.add(food);
+                    	}
+						break;
+					case "maker":
+						sql = "SELECT * FROM food where maker like concat('%','?','%')";
+						stmt = conn.prepareStatement(sql);
+                    	stmt.setString(1, word);
+                    	rs = stmt.executeQuery();
+
+                    	while(rs.next()) {
+                    		Food food = new Food();
+            				food.setCode(rs.getInt(1));
+            				food.setName(rs.getString(2));
+            				food.setSupportpereat(rs.getDouble(3));
+            				food.setCalory(rs.getDouble(4));
+            				food.setCarbo(rs.getDouble(5));
+            				food.setProtein(rs.getDouble(6));
+            				food.setFat(rs.getDouble(7));
+            				food.setSugar(rs.getDouble(8));
+            				food.setNatrium(rs.getDouble(9));
+            				food.setChole(rs.getDouble(10));
+            				food.setFattyacid(rs.getDouble(11));
+            				food.setTransfat(rs.getDouble(12));
+            				food.setMaker(rs.getString(13));
+            				food.setMaterial(rs.getString(14));
+            				food.setImg(rs.getString(15));
+            				finds.add(food);
+                    	}
+						break;
+					case "material":
+						sql = "SELECT * FROM food where material like concat('%','?','%')";
+						stmt = conn.prepareStatement(sql);
+                    	stmt.setString(1, word);
+                    	rs = stmt.executeQuery();
+
+                    	while(rs.next()) {
+                    		Food food = new Food();
+            				food.setCode(rs.getInt(1));
+            				food.setName(rs.getString(2));
+            				food.setSupportpereat(rs.getDouble(3));
+            				food.setCalory(rs.getDouble(4));
+            				food.setCarbo(rs.getDouble(5));
+            				food.setProtein(rs.getDouble(6));
+            				food.setFat(rs.getDouble(7));
+            				food.setSugar(rs.getDouble(8));
+            				food.setNatrium(rs.getDouble(9));
+            				food.setChole(rs.getDouble(10));
+            				food.setFattyacid(rs.getDouble(11));
+            				food.setTransfat(rs.getDouble(12));
+            				food.setMaker(rs.getString(13));
+            				food.setMaterial(rs.getString(14));
+            				food.setImg(rs.getString(15));
+            				finds.add(food);
+                    	}
+						break;
+					}
+					return finds;
+				}else {
+					return loadData();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(stmt);
+			DBUtil.close(conn);
+		}
+		return loadData();
 	}
 
 	/**
@@ -116,12 +190,42 @@ public class FoodDaoImpl implements FoodDao {
 	 */
 	@Override
 	public Food search(int code) {
-		List<Food> foods = loadData();
-		for (Food food : foods) {
-			if (food.getCode() == code) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		String sql = "select * from FOOD where code=?";
+    	try {
+    		conn = DBUtil.getConnection();
+    		stmt = conn.prepareStatement(sql);
+    		stmt.setInt(1, code);
+			rs = stmt.executeQuery();
+			if(rs.next()) {
+				Food food = new Food();
+				food.setCode(rs.getInt(1));
+				food.setName(rs.getString(2));
+				food.setSupportpereat(rs.getDouble(3));
+				food.setCalory(rs.getDouble(4));
+				food.setCarbo(rs.getDouble(5));
+				food.setProtein(rs.getDouble(6));
+				food.setFat(rs.getDouble(7));
+				food.setSugar(rs.getDouble(8));
+				food.setNatrium(rs.getDouble(9));
+				food.setChole(rs.getDouble(10));
+				food.setFattyacid(rs.getDouble(11));
+				food.setTransfat(rs.getDouble(12));
+				food.setMaker(rs.getString(13));
+				food.setMaterial(rs.getString(14));
+				food.setImg(rs.getString(15));
 				return food;
 			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(rs);
+			DBUtil.close(stmt);
+			DBUtil.close(conn);
 		}
+		
 		return null;
 	}
 }
