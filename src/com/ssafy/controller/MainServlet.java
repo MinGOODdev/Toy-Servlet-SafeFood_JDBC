@@ -64,6 +64,8 @@ public class MainServlet extends HttpServlet {
 				case "getWrite": page = noticeController.getWrite(req, res); break;
 				case "registerNotice": page = noticeController.registerNotice(req, res); break;
 				case "deleteNotice" : page = noticeController.deleteNotice(req, res); break;
+				// Food insert DB
+				case "insertFood" : page = FoodDBController.insertFoodDB(); break;
 			}
 
 			if (page.isForward()) {
