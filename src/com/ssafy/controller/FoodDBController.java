@@ -14,13 +14,13 @@ import com.ssafy.vo.PageInfo;
 public class FoodDBController {
 	private static List<Food> foods;
 	private static FoodDBController foodDBController;
-	
-	public static FoodDBController getInstance() {
-        if (foodDBController == null) foodDBController = new FoodDBController();
-        return foodDBController;
-    }
 
-	
+	public static FoodDBController getInstance() {
+		if (foodDBController == null) foodDBController = new FoodDBController();
+		return foodDBController;
+	}
+
+
 	public static PageInfo insertFoodDB() throws SQLException {
 		FoodSaxParser parser = FoodSaxParser.getInstance();
 		foods = parser.getFoods();
@@ -61,6 +61,52 @@ public class FoodDBController {
 			DBUtil.close(stmt);
 			DBUtil.close(conn);
 		}
+		for(Food food : foods) {
+			System.out.println(food.getCode() + "번 음식");
+			String materialStr = food.getMaterial();
+			String[] strArr = materialStr.split(",");
+
+			for(int i = 0; i < strArr.length; i++) {
+				String material = null;
+				String origin = null; 
+				try {
+					if(strArr[i].contains("(")) {
+						// 잘라야함
+						System.out.println(strArr[i]);
+						material = strArr[i].substring(0, strArr[i].indexOf("("));
+						origin = strArr[i].substring(strArr[i].indexOf(("("))+ 1, strArr[i].indexOf(")"));
+					}else {
+						System.out.println(strArr[i]);
+						material = strArr[i];
+					}
+					sql = "INSERT INTO MATERIAL (food_code, name,origin) VALUES (?, ?, ?)";
+					conn = DBUtil.getConnection();
+					stmt = conn.prepareStatement(sql);
+					stmt.setInt(1, food.getCode());
+					stmt.setString(2, material);
+					stmt.setString(3, origin);
+					stmt.executeUpdate();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				} finally {
+					DBUtil.close(stmt);
+					DBUtil.close(conn);
+				}
+			}
+		}
+		
+		try {
+			sql = "insert into food_has_allergy select m.food_code,a.idx from (select food_code,name from material where name = any(( select name from allergy ))) m, allergy a where m.name = a.name";
+			conn = DBUtil.getConnection();
+			stmt = conn.prepareStatement(sql);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBUtil.close(stmt);
+			DBUtil.close(conn);
+		}
+
 		return new PageInfo(false, "main.do?action=foodList");
 	}
 
