@@ -23,6 +23,7 @@
                 <th>제조사</th>
                 <th>1회 제공량</th>
                 <th>칼로리</th>
+                <th>알러지주의</th>
                 <th>수량</th>
                 <th>-</th>
             </tr>
@@ -36,6 +37,11 @@
                         <td>${f.food.maker}</td>
                         <td>${f.food.supportpereat} g</td>
                         <td>${f.food.calory} kcal</td>
+                        <td>
+                            <c:forEach items="${f.allergyList}" var="a">
+                                ${a.name}
+                            </c:forEach>
+                        </td>
                         <td>${f.count}</td>
                         <td>
                             <form action="${pageContext.request.contextPath}/main.do" method="post">
@@ -48,17 +54,6 @@
                 </c:forEach>
             </c:if>
             </tbody>
-        </table>
-
-        <h3>알러지를 조심하세요.</h3>
-        <table class="table table-hover table-bordered">
-            <c:forEach items="${purchaseList}" var="p">
-                <tr>
-                    <c:forEach items="${p.allergyList}" var="a">
-                        <td style="color: red">${a.name}</td>
-                    </c:forEach>
-                </tr>
-            </c:forEach>
         </table>
     </div>
 </div>
