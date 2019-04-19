@@ -25,13 +25,17 @@ public class FoodDBController {
 		FoodSaxParser parser = FoodSaxParser.getInstance();
 		foods = parser.getFoods();
 		Connection conn = null;
-		PreparedStatement stmt = null;
+		PreparedStatement stmt = null, stmt2 = null, stmt3 = null;
 		ResultSet rs = null;
 		String sql = "INSERT INTO FOOD VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql2 = "INSERT INTO MATERIAL (food_code, name,origin) VALUES (?, ?, ?)";
+		String sql3 = "insert into food_has_allergy select m.food_code,a.idx from (select food_code,name from material where name = any(( select name from allergy ))) m, allergy a where m.name = a.name";
 		try {
 			conn = DBUtil.getConnection();
 			conn.setAutoCommit(false);
 			stmt = conn.prepareStatement(sql);
+			stmt2 = conn.prepareStatement(sql2);
+			stmt3 = conn.prepareStatement(sql3);
 			for(Food food : foods) {
 				System.out.println(food.getCode() + "번 음식");
 				stmt.setInt(1, food.getCode());
@@ -50,58 +54,37 @@ public class FoodDBController {
 				stmt.setString(14, food.getMaterial());
 				stmt.setString(15, food.getImg());
 				stmt.addBatch();
-			}
-			stmt.executeBatch();
-			conn.commit();
-		} catch (SQLException e) {
-			e.printStackTrace();
-			conn.rollback(); // 롤백이 있기 때문에 catch를 지우면 안됨.
-			throw e; // 예외 던짐
-		} finally {
-			DBUtil.close(stmt);
-			DBUtil.close(conn);
-		}
-		for(Food food : foods) {
-			System.out.println(food.getCode() + "번 음식");
-			String materialStr = food.getMaterial();
-			String[] strArr = materialStr.split(",");
 
-			for(int i = 0; i < strArr.length; i++) {
-				String material = null;
-				String origin = null; 
-				try {
+				String materialStr = food.getMaterial();
+				String[] strArr = materialStr.split(",");
+
+				for(int i = 0; i < strArr.length; i++) {
+					String material = null;
+					String origin = null; 
 					if(strArr[i].contains("(")) {
 						// 잘라야함
-						System.out.println(strArr[i]);
+						// System.out.println(strArr[i]);
 						material = strArr[i].substring(0, strArr[i].indexOf("("));
 						origin = strArr[i].substring(strArr[i].indexOf(("("))+ 1, strArr[i].indexOf(")"));
 					}else {
 						System.out.println(strArr[i]);
 						material = strArr[i];
 					}
-					sql = "INSERT INTO MATERIAL (food_code, name,origin) VALUES (?, ?, ?)";
-					conn = DBUtil.getConnection();
-					stmt = conn.prepareStatement(sql);
-					stmt.setInt(1, food.getCode());
-					stmt.setString(2, material);
-					stmt.setString(3, origin);
-					stmt.executeUpdate();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					DBUtil.close(stmt);
-					DBUtil.close(conn);
+					stmt2.setInt(1, food.getCode());
+					stmt2.setString(2, material);
+					stmt2.setString(3, origin);
+					stmt2.addBatch();
 				}
 			}
-		}
-		
-		try {
-			sql = "insert into food_has_allergy select m.food_code,a.idx from (select food_code,name from material where name = any(( select name from allergy ))) m, allergy a where m.name = a.name";
-			conn = DBUtil.getConnection();
-			stmt = conn.prepareStatement(sql);
-			stmt.executeUpdate();
+			stmt3.addBatch();
+			
+			stmt.executeBatch();
+			stmt2.executeBatch();
+			stmt3.executeBatch();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			conn.rollback(); // 롤백이 있기 때문에 catch를 지우면 안됨.
+			throw e; // 예외 던짐
 		} finally {
 			DBUtil.close(stmt);
 			DBUtil.close(conn);
