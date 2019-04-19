@@ -28,9 +28,10 @@ public class WebConfigFilter implements Filter {
 		String action = req.getParameter("action");
 		String url = "main.do?action=";
 
-		if ("login".equals(action) || "signUp".equals(action) || "findPw".equals(action) || "yourPwHere".equals(action)) {
+		if ("login".equals(action) || "signUp".equals(action) || "findPw".equals(action) || "yourPwHere".equals(action) || "getSignUp".equals(action)) {
 			switch (action) {
 				case "login":
+				case "getSignUp":
 				case "signUp":
 				case "findPw":
 				case "yourPwHere":

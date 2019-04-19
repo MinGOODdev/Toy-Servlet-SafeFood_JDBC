@@ -20,6 +20,10 @@ public class UserHasAllergyDaoImpl implements UserHasAllergyDao {
         return userHasAllergyDao;
     }
 
+    private UserHasAllergyDaoImpl() {
+
+    }
+
     @Override
     public void insert(int id, List<Allergy> result) throws Exception {
         Connection conn = null;

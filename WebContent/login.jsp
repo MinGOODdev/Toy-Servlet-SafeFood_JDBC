@@ -49,7 +49,7 @@
 
         <div>
             <button class="btn btn-link" type="submit" onclick="validate();">로그인</button>
-            <a class="ssafy" href="${pageContext.request.contextPath}/signUp.jsp">
+            <a class="ssafy" href="main.do?action=getSignUp">
                 <button class="btn btn-link" type="button">회원가입</button>
             </a>
             <a class="ssafy" href="${pageContext.request.contextPath}/findPw.jsp">

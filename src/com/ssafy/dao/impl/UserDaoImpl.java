@@ -21,6 +21,10 @@ public class UserDaoImpl implements UserDao {
         return userDao;
     }
 
+    private UserDaoImpl() {
+
+    }
+
     /**
      * 회원 전체 조회
      **/

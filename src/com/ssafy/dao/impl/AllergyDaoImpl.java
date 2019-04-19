@@ -18,6 +18,10 @@ public class AllergyDaoImpl implements AllergyDao {
         return allergyDao;
     }
 
+    private AllergyDaoImpl() {
+
+    }
+
     @Override
     public List<Allergy> findAll() throws Exception {
         ArrayList<Allergy> list = new ArrayList<>();

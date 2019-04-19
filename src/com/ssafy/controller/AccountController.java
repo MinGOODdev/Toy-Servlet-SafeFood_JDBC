@@ -97,7 +97,16 @@ public class AccountController {
     }
 
     /**
-     * 화원가입
+     * 회원가입 (GET)
+     */
+    public PageInfo getSignUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        List<Allergy> allergies = allergyService.findAll();
+        request.setAttribute("allergies", allergies);
+        return new PageInfo(true, "signUp.jsp");
+    }
+
+    /**
+     * 화원가입 (POST)
      **/
     public PageInfo signUp(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String userId = request.getParameter("id");
@@ -134,6 +143,7 @@ public class AccountController {
             allergies.add(allergyService.findByIdx(temp.getAllergyIdx()));
         }
         request.setAttribute("allergyList", allergies);
+        request.setAttribute("allergies", allergyService.findAll());
 
         return new PageInfo(true, "WEB-INF/user/mypage.jsp");
     }

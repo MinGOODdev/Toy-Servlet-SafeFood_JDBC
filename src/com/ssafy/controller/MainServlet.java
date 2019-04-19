@@ -17,7 +17,7 @@ public class MainServlet extends HttpServlet {
 	private UserController userController = UserController.getInstance();
 	private AccountController accountController = AccountController.getInstance();
 	private NoticeController noticeController = NoticeController.getInstance();
-	
+
 	@Override
 	public void init() throws ServletException {
 
@@ -43,9 +43,10 @@ public class MainServlet extends HttpServlet {
                 case "foodList": page = foodController.getFoodList(req, res); break;
 				case "view": page = foodController.getFoodDetail(req, res); break;
 				case "search": page = foodController.searchBy(req, res); break;
-                // Account
+				// Account
 				case "login": page = accountController.login(req, res); break;
 				case "logout": page = accountController.logout(req, res); break;
+				case "getSignUp": page = accountController.getSignUp(req, res); break;
 				case "signUp": page = accountController.signUp(req, res); break;
 				case "findPw": page = accountController.findPw(req, res); break;
 				case "yourPwHere": page = accountController.yourPwHere(req, res); break;
@@ -54,9 +55,9 @@ public class MainServlet extends HttpServlet {
 				case "userList": page = accountController.getUserList(req, res); break;
 				case "userDelete": page = accountController.deleteUser(req, res); break;
 				// User
-//				case "order": page = userController.doPurchase(req, res); break;
-//				case "orderList": page = userController.getPurchaseListByUser(req, res); break;
-//				case "deletePurchase": page = userController.deletePurchase(req, res); break;
+				case "order": page = userController.doPurchase(req, res); break;
+				case "orderList": page = userController.getPurchaseListByUser(req, res); break;
+				case "deletePurchase": page = userController.deletePurchase(req, res); break;
 				// Notice
 				case "noticeList": page = noticeController.getNoticeList(req, res); break;
 				case "noticeDetail": page = noticeController.getNoticeDetail(req, res); break;

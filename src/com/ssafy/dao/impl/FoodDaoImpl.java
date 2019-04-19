@@ -23,10 +23,11 @@ public class FoodDaoImpl implements FoodDao {
 	}
 
 	private FoodDaoImpl() {
+
 	}
 
 	/**
-	 * 식품 영양학 정보와 식품 정보를 xml 파일에서 읽어온다.
+	 * 식품 영양학 정보와 식품 정보를 DB에서 읽어온다.
 	 */
 	private List<Food> loadData() {
 		List<Food> foods = new ArrayList<>();
